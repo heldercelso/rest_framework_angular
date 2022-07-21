@@ -1,0 +1,75 @@
+version: "3.9"
+# command to access container already running:
+# - docker exec -ti <container> bash
+# - command on gitbash: winpty docker exec -ti <container> bash
+services:
+    web:
+        image: currency_convert_back_end_django
+        container_name: web
+        build: ./django-rest-api
+        command: python -u manage.py runserver 0.0.0.0:8080
+        #command: >
+        #    sh -c "python manage.py makemigrations && python manage.py migrate &&
+        #    python manage.py runserver 0.0.0.0:8000"
+        #command: >
+        #    sh -c "exec gunicorn django_project.wsgi:application -b :8000 --reload"
+        volumes:
+            - ./django-rest-api:/code
+        ports:
+            - "8080:8080"
+        env_file:
+            - variables.env
+        entrypoint: /docker-entrypoint.sh
+        depends_on:
+            db:
+                condition: service_healthy
+    angular: # Just for build purpose
+        image: currency_convert_front_end
+        container_name: angular
+        build: ./angular_project
+        #tty: true
+        volumes: # Volume binding
+            - bind_angular_vol:/usr/src/app/dist
+        #ports: 
+        #    - '8081:8081' # Port mapping
+        #command: >  # command used only for development - production is necessary to generate prod files with ng build
+        #    bash -c "ng serve --host 0.0.0.0 --port 8081"
+        depends_on:
+            - web
+    db:
+        image: postgres:13.4-alpine
+        container_name: db
+        volumes:
+            - ./postgres_data_django:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_DB=my_app_database
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=pass_myapp
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready --username=postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+    nginx:
+        image: nginx:1.21.3-alpine
+        container_name: nginx
+        volumes:
+            - ./nginx_http/django_project.conf:/etc/nginx/conf.d/django_project.conf
+            - ./angular_project/dist/currency-convert:/usr/share/nginx/html
+        ports:
+            - "80:80"
+        depends_on:
+            - angular
+volumes:
+    django-rest-api:
+    currency-convert:
+    postgres_data_django:
+    nginx_http:
+    bind_angular_vol:
+        driver: local
+        driver_opts:
+          type: none
+          device: ./angular_project/dist
+          o: bind

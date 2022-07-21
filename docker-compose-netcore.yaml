@@ -1,0 +1,61 @@
+version: "3.9"
+# command to access container already running:
+# - docker exec -ti <container> bash
+# - command on gitbash: winpty docker exec -ti <container> bash
+services:
+    web:
+        image: currency_convert_back_end_netcore
+        container_name: web
+        build: ./netcore-rest-api
+        ports:
+            - "8080:80"
+            #- "8001:443"
+        env_file:
+            - variables.env
+        depends_on:
+            - db
+    angular: # Just for build purpose
+        image: currency_convert_front_end
+        container_name: angular
+        build: ./angular_project
+        #tty: true
+        volumes: # Volume binding
+            - bind_angular_vol:/usr/src/app/dist
+        #ports: 
+        #    - '8081:8081'
+        #command: >  # command used only for development - production is necessary to generate prod files with ng build
+        #    bash -c "ng serve --host 0.0.0.0 --port 8081"
+        depends_on:
+            - web
+    db:
+        image: postgres:13.4-alpine
+        container_name: db
+        volumes:
+            - ./postgres_data_netcore:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_DB=my_app_database
+            - POSTGRES_USER=user_myapp
+            - POSTGRES_PASSWORD=pass_myapp
+    nginx:
+        image: nginx:1.21.3-alpine
+        container_name: nginx
+        volumes:
+            - ./nginx_http/netcore_project.conf:/etc/nginx/conf.d/netcore_project.conf
+            - ./angular_project/dist/currency-convert:/usr/share/nginx/html
+        ports:
+            - "80:80"
+        depends_on:
+            - angular
+
+volumes:
+    currency-convert:
+    postgres_data_netcore:
+    nginx_http:
+    bind_angular_vol:
+        driver: local
+        driver_opts:
+          type: none
+          device: ./angular_project/dist
+          o: bind

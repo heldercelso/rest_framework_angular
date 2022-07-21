@@ -1,0 +1,41 @@
+################################################
+################################################
+
+- Comandos Angular usados:
+
+ng g s services/fees-charged
+ng g c components/calculate-fee
+ng g c components/fee-details
+ng g c components/fee-list
+ng g class models/feescharged --type=model
+
+ng generate module app-routing --flat --module=app
+
+ng g s services/client
+ng g c components/client
+ng g class models/client --type=model
+
+ng g s services/segment
+ng g c components/segment
+ng g class models/segment --type=model
+
+ng serve --port 8081
+ng build
+
+
+- Criando Controllers asp.netcore:
+
+dotnet aspnet-codegenerator controller -name FeeItemsController -async -api -m FeeItem -dc FeeContext -outDir Controllers
+dotnet aspnet-codegenerator controller -name ClientController -async -api -m Client -dc FeeContext -outDir Controllers
+dotnet aspnet-codegenerator controller -name SegmentController -async -api -m Segment -dc FeeContext -outDir Controllers
+
+dotnet add package System.ComponentModel.Annotations
+dotnet add package Microsoft.AspNet.WebApi.Client
+dotnet rm package Microsoft.EntityFrameworkCore
+
+
+- Modelando Foreign Key Asp.Netcore:
+https://www.entityframeworktutorial.net/code-first/foreignkey-dataannotations-attribute-in-code-first.aspx
+
+################################################
+################################################

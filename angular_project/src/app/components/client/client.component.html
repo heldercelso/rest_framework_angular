@@ -1,0 +1,51 @@
+<div>
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+            <label for="name">Nome</label>
+            <input
+              class="form-control"
+              id="name"
+              required
+              [(ngModel)]="client.name"
+              name="name"
+            />
+          </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cpf"
+            required
+            [(ngModel)]="client.cpf"
+            name="cpf"
+          />
+        </div>
+        <div class="form-group">
+          <label for="segment">Segmento</label>
+          <!-- <input
+            class="form-control"
+            id="segment"
+            required
+            [(ngModel)]="client.segment"
+            name="segment"
+          /> -->
+          <select class="form-control" [(ngModel)]="client.segment" id="segment" name="segment" required>
+            <option [value]="itm" *ngFor="let itm of segments">
+              <!-- [selected]="default_segment" -->
+              {{ itm }}
+            </option>
+          </select>
+        </div>
+        <button (click)="saveClient()" class="btn btn-success">Cadastrar</button>
+      </div>
+      <div *ngIf="submitted">
+        <h4>Cliente cadastrado com sucesso!</h4>
+        <button class="btn btn-success" (click)="newClient()">Cadastrar outro</button>
+      </div>
+      <div *ngIf="error_msg">
+        <h4>{{ error_msg }}</h4>
+      </div>
+    </div>
+  </div>

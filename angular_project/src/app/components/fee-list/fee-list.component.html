@@ -1,0 +1,49 @@
+<div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Cliente"
+          [(ngModel)]="client"
+        />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Segmento"
+          [(ngModel)]="segment"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Procurar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Lista de Taxas Cobradas</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let fee_charged of fees_charged; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveFeeCharged(fee_charged, i)"
+        >
+          Cliente: {{ fee_charged.client_name }} / CPF: {{ fee_charged.client }} / Valor: {{ fee_charged.source_currency_amount }}
+        </li>
+      </ul>
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllFeeChargeds()">
+        Remover Todos
+      </button>
+    </div>
+    <div class="col-md-6">
+      <app-fee-details
+        [viewMode]="true"
+        [currentFeeCharged]="currentFeeCharged"
+      ></app-fee-details>
+    </div>
+  </div>

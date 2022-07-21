@@ -1,0 +1,35 @@
+<div>
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+          <label for="client">CPF</label>
+          <input
+            type="text"
+            class="form-control"
+            id="client"
+            required
+            [(ngModel)]="fees_charged.client"
+            name="client"
+          />
+        </div>
+        <div class="form-group">
+          <label for="source_currency_amount">Quantidade</label>
+          <input
+            class="form-control"
+            id="source_currency_amount"
+            required
+            [(ngModel)]="fees_charged.source_currency_amount"
+            name="source_currency_amount"
+          />
+        </div>
+        <button (click)="saveFeesCharged()" class="btn btn-success">Enviar</button>
+      </div>
+      <div *ngIf="submitted">
+        <h4>Compra efetivada com sucesso!</h4>
+        <button class="btn btn-success" (click)="newFeesCharged()">Comprar mais</button>
+      </div>
+      <div *ngIf="error_msg">
+        <h4>{{ error_msg }}</h4>
+      </div>
+    </div>
+  </div>

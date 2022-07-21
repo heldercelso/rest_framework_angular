@@ -1,0 +1,109 @@
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentFeeCharged.client && currentFeeCharged.id">
+      <h4>Detalhes da transação</h4>
+      <div>
+        <label><strong>Cliente:</strong></label> {{ currentFeeCharged.client_name }}
+      </div>
+      <div>
+        <label><strong>CPF:</strong></label> {{ currentFeeCharged.client }}
+      </div>
+      <div>
+        <label><strong>Valor Convertido:</strong></label>
+        {{ currentFeeCharged.source_currency_amount }} (EUR)
+      </div>
+      <div>
+        <label><strong>Resultado:</strong></label>
+        {{ currentFeeCharged.conversion_result }} (BRL)
+      </div>
+      <div>
+        <label><strong>Taxa:</strong></label>
+        {{ currentFeeCharged.fee }}
+      </div>
+      <div>
+        <label><strong>Segmento:</strong></label>
+        {{ currentFeeCharged.client_segment }}
+      </div>
+      <div>
+        <label><strong>Taxa do Segmento:</strong></label>
+        {{ currentFeeCharged.segment_fee }}
+      </div>
+      <div>
+        <label><strong>Fórmula Aplicada:</strong></label>
+        {{ currentFeeCharged.formula }}
+      </div>
+      <a
+        class="badge badge-warning"
+        routerLink="/fees-charged/{{ currentFeeCharged.client }}/{{ currentFeeCharged.id }}"
+      >
+        Editar
+      </a>
+    </div>
+    <div *ngIf="!currentFeeCharged.client && !currentFeeCharged.id">
+      <br />
+      <p>Para visualizar os dados, clique em um cliente.</p>
+    </div>
+  </div>
+  <ng-template #editable>
+    <div *ngIf="currentFeeCharged.client && currentFeeCharged.id" class="edit-form">
+      <h4>Taxa Cobrada</h4>
+      <form>
+        <div class="form-group">
+          <label for="client">Cliente</label>
+          <input
+            type="text"
+            class="form-control"
+            id="client"
+            [(ngModel)]="currentFeeCharged.client"
+            name="client"
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label for="source_currency_amount">Quantidade</label>
+          <input
+            type="text"
+            class="form-control"
+            id="source_currency_amount"
+            [(ngModel)]="currentFeeCharged.source_currency_amount"
+            name="source_currency_amount"
+          />
+        </div>
+        <!-- <div class="form-group">
+          <label><strong>Status:</strong></label>
+          {{ currentFeeCharged.published ? "Published" : "Pending" }}
+        </div> -->
+      </form>
+      <!-- <button
+        class="badge badge-primary mr-2"
+        *ngIf="currentFeeCharged.published"
+        (click)="updatePublished(false)"
+      >
+        UnPublish
+      </button>
+      <button
+        *ngIf="!currentFeeCharged.published"
+        class="badge badge-primary mr-2"
+        (click)="updatePublished(true)"
+      >
+        Publish
+      </button> -->
+      <button class="badge badge-danger mr-2" (click)="deleteFeeCharged()">
+        Deletar
+      </button>
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateFeeCharged()"
+      >
+        Atualizar
+      </button>
+      <p>{{ message }}</p>
+      <div *ngIf="error_msg">
+        <h4>{{ error_msg }}</h4>
+      </div>
+    </div>
+    <div *ngIf="!currentFeeCharged.client || !currentFeeCharged.id">
+      <br />
+      <p>Não foi possível acessar...</p>
+    </div>
+  </ng-template>

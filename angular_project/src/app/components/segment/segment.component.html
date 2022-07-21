@@ -1,0 +1,34 @@
+<div>
+    <div class="submit-form">
+      <div *ngIf="!submitted">
+        <div class="form-group">
+            <label for="name">Nome</label>
+            <input
+              class="form-control"
+              id="name"
+              required
+              [(ngModel)]="segment.name"
+              name="name"
+            />
+          </div>
+        <div class="form-group">
+          <label for="fee">Taxa</label>
+          <input
+            class="form-control"
+            id="fee"
+            required
+            [(ngModel)]="segment.fee"
+            name="fee"
+          />
+        </div>
+        <button (click)="saveSegment()" class="btn btn-success">Cadastrar</button>
+      </div>
+      <div *ngIf="submitted">
+        <h4>Segmento cadastrado com sucesso!</h4>
+        <button class="btn btn-success" (click)="newSegment()">Cadastrar outro</button>
+      </div>
+      <div *ngIf="error_msg">
+        <h4>{{ error_msg }}</h4>
+      </div>
+    </div>
+  </div>
