@@ -196,26 +196,26 @@ The structure contained in the `docker-compose-<framework>.yaml` file provides d
 
 ### API Implementad Routes:
 
-* POST /api/new-client: Create new client
+* POST `/api/new-client`: Create new client
     ```
     # Json post example:
     {"name": "Helder", "cpf": 123, "segment": "Premium"}
     ```
-* POST /api/fees-charged: Create new charge
+* POST `/api/fees-charged`: Create new charge
     ```
     # Json post example:
     {"client": 123, "source_currency_amount": "70"}
     ```
-* PUT /api/fees-charged/:cpf/:id: Update a charge by cpf and id
+* PUT `/api/fees-charged/:cpf/:id`: Update a charge by cpf and id
     ```
     # Json post example:
     {"source_currency_amount": "70"}
     ```
-* `GET /api/fees-charged` - Retrieve all fees of all clients
-* `GET /api/fees-charged/:cpf:id` - Retrieve a specific charged fee by client and id
-* `GET /api/fees-charged?client=[cpf]&segment=[text]` - Filter all fees by client and/or segment
-* `DELETE /api/fees-charged/:cpf:id` - Delete a charged fee by cpf and id
-* `DELETE /api/fees-charged` - Delete all charged fees
+* GET `/api/fees-charged` - Retrieve all fees of all clients
+* GET `/api/fees-charged/:cpf:id` - Retrieve a specific charged fee by client and id
+* GET `/api/fees-charged?client=[cpf]&segment=[text]` - Filter all fees by client and/or segment
+* DELETE `/api/fees-charged/:cpf:id` - Delete a charged fee by cpf and id
+* DELETE `/api/fees-charged` - Delete all charged fees
 
 ### Database
 
