@@ -2,6 +2,9 @@
 venv
 __pycache__*
 
+# migrations
+migrations*
+
 # database
 db.sqlite3
 postgres_data*

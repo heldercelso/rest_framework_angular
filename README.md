@@ -5,6 +5,8 @@ The purpose was to replicate the backend keeping the same frontend (developed in
 It has a PostgreSQL database that aims to store exchange rates for different segments (as registered) to perform metrics involving these rates.
 At first, the only metric implemented is the conversion of foreign currency into BRL.
 
+Project images: https://helder-portfolio.herokuapp.com/rest-framework-angular-9/
+
 
 ## Technologies
 
